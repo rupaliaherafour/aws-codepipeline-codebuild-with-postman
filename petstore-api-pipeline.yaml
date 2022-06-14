@@ -32,8 +32,7 @@ Resources:
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
-        -
-          Effect: "Allow"
+        - Effect: "Allow"
           Principal:
             Service:
             - "codepipeline.amazonaws.com"
@@ -42,14 +41,12 @@ Resources:
       Path: /
       #TODO: scope resources
       Policies:
-      -
-        PolicyName:
+      - PolicyName:
           Fn::Sub: ${AWS::StackName}-CodePipelineRolePolicy
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Action:
             - "s3:DeleteObject"
             - "s3:GetObject"
@@ -58,14 +55,12 @@ Resources:
             - "s3:PutObject"
             - "s3:GetBucketPolicy"
             Resource: '*'
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Action:
             - "codebuild:StartBuild"
             - "codebuild:BatchGetBuilds"
             Resource: '*'
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Action:
             - "cloudformation:DescribeStacks"
             - "cloudformation:DescribeChangeSet"
@@ -88,8 +83,7 @@ Resources:
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
-        -
-          Effect: "Allow"
+        - Effect: "Allow"
           Principal:
             Service:
             - "codebuild.amazonaws.com"
@@ -97,8 +91,7 @@ Resources:
           - "sts:AssumeRole"
       Path: /service-role/
       Policies:
-      -
-        PolicyName:
+      - PolicyName:
           Fn::Sub: ${AWS::StackName}-CodeBuildServiceRole-Policy
         PolicyDocument:
           Version: "2012-10-17"
@@ -116,16 +109,14 @@ Resources:
               - "cloudformation:DescribeStacks"
             Resource:
               - "*"
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Action:
             - "logs:CreateLogGroup"
             - "logs:CreateLogStream"
             - "logs:PutLogEvents"
             Resource:
             - Fn::Sub: arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Action:
             - "s3:PutObject"
             - "s3:GetObject"
@@ -136,8 +127,7 @@ Resources:
             - Fn::Sub: arn:aws:s3:::${AWS::StackName}-codepipeline-artifact-bucket-${AWS::AccountId}
             - Fn::Sub: arn:aws:s3:::${BucketRoot}/*
             - Fn::Sub: arn:aws:s3:::${BucketRoot}
-          -
-            Effect: "Allow"
+          - Effect: "Allow"
             Action:
             - "iam:PassRole"
             Resource:
@@ -167,7 +157,7 @@ Resources:
     Properties:
       AccessControl: Private
       BucketName:
-        Fn::Sub: ${AWS::StackName}-codepipeline-artifact-bucket-${AWS::AccountId}
+        Fn::Sub: ${AWS::StackName}-artifact-${AWS::AccountId}
       VersioningConfiguration:
         Status: Enabled
       Tags:
@@ -188,7 +178,7 @@ Resources:
         Location:
           Ref: CodePipelineArtifactBucket
         Name:
-          Fn::Sub: ${AWS::StackName}-petstore-api-stack-codebuild-project
+          Fn::Sub: ${AWS::StackName}-   -api-stack-codebuild-project
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -365,13 +355,11 @@ Resources:
             - lambda.amazonaws.com
       Path: /
       Policies:
-      -
-        PolicyName: "root"
+      - PolicyName: "root"
         PolicyDocument:
           Version: '2012-10-17' # Policy Document
           Statement:
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
             - s3:PutObject
             - s3:PutObjectAcl
@@ -379,19 +367,16 @@ Resources:
             - s3:GetObjectVersion
             Resource:
             - Fn::Sub: arn:aws:s3:::${BucketRoot}/*
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
             - codepipeline:PutJobSuccessResult
             - codepipeline:PutJobSuccessFailure
             Resource: "*"
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
             - cloudformation:ListExports
             Resource: "*"
-          -
-            Effect: Allow
+          - Effect: Allow
             Action:
             - logs:CreateLogGroup
             - logs:CreateLogStream
